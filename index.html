@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Picture and Comments</title>
+	<style>
+		.container {
+			width: 800px;
+			height: 900px;
+			background-color: #eee;
+			margin: 0 auto;
+			padding: 20px;
+		}
+		.comments {
+			margin-top: 20px;
+			background-color: #fff;
+			padding: 10px;
+			overflow: auto;
+			height: 400px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<img src="picture.png" width="200" height="200">
+		<form>
+			<label for="name">Name:</label>
+			<input type="text" id="name">
+			<label for="email">Email:</label>
+			<input type="email" id="email">
+			<label for="comment">Comment:</label>
+			<textarea id="comment"></textarea>
+			<input type="submit" value="Submit">
+		</form>
+		<div class="comments"></div>
+	</div>
+	<script>
+		document.querySelector('form').addEventListener('submit', function(event) {
+			event.preventDefault();
+			var name = document.getElementById('name').value;
+			var email = document.getElementById('email').value;
+			var comment = document.getElementById('comment').value;
+			var newComment = document.createElement('p');
+			newComment.innerHTML = '<strong>' + name + ':</strong> ' + comment;
+			document.querySelector('.comments').appendChild(newComment);
+			document.getElementById('name').value = '';
+			document.getElementById('email').value = '';
+			document.getElementById('comment').value = '';
+		});
+	</script>
+</body>
+</html>
