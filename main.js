@@ -21,7 +21,7 @@ form.addEventListener("submit", function (event) {
     .then((response) => {
       if (response === 1) {
         // Character count is less than 10
-        handleCommentError("Comment should have at least 10 characters.");
+        handleCommentError("Comment seems to be inappropriate.");
       } else {
         // Character count is valid
         const comment = {
@@ -39,7 +39,7 @@ form.addEventListener("submit", function (event) {
     .catch((error) => {
       // Handle error response from FastAPI
       handleCommentError(
-        "Error occurred while checking character count. Please try again later."
+        "Error occurred while checking. Please try again later."
       );
     });
 });
@@ -80,7 +80,7 @@ function isValidEmail(email) {
 
 function showSuccessMessage() {
   const messageDiv = createMessageDiv(
-    "Comment submitted successfully!",
+    "Comment Posted successfully!",
     "#4CAF50"
   );
   form.insertAdjacentElement("afterend", messageDiv);
