@@ -20,7 +20,6 @@ form.addEventListener("submit", function (event) {
   checkCharacterCount(commentInput.value)
     .then((response) => {
       if (response === 1) {
-        // Character count is less than 10
         handleCommentError("Comment seems to be inappropriate.");
       } else {
         // Character count is valid
