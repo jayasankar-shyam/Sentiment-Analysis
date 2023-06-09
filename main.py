@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 @app.post("/api/sentiment-analyser")
-async def check_character_count(request: Request):
+async def check_sentiment(request: Request):
     data = await request.json()
     comment = data.get('comment', '')
     comment = pd.Series(comment)
@@ -35,6 +35,8 @@ async def check_character_count(request: Request):
         return {'result': 1}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    #uvicorn.run(app, host="0.0.0.0", port=8000)
+    app.run(debug=True)
+    #uvicorn.run(app,debug=True)
 #cd D:/coding/sentiment-analysis && python -m uvicorn main:app --reload
 
