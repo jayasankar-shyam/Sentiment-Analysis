@@ -22,7 +22,7 @@ form.addEventListener("submit", function (event) {
       if (response === 1) {
         handleCommentError("Comment seems to be inappropriate.");
       } else {
-        // Character count is valid
+        
         const comment = {
           name: nameInput.value,
           email: emailInput.value,
@@ -111,7 +111,7 @@ function createMessageDiv(text, bgColor) {
 }
 
 function checkCharacterCount(comment) {
-  return fetch("http://127.0.0.1:8000/api/sentiment-analyser", {
+  return fetch("https://checksentiment-udinnvffqq-uc.a.run.app/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

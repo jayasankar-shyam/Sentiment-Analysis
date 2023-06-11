@@ -1,42 +1,39 @@
-from fastapi import FastAPI,Request
-from fastapi.middleware.cors import CORSMiddleware
 import pickle
-import keras
-import pandas as pd
+from flask import Flask, request, jsonify
+from tensorflow.keras.models import load_model
 from sklearn.feature_extraction.text import CountVectorizer
-# Load the configurations from the file
-with open('countvectorizer_config.pkl', 'rb') as f:
-    configurations = pickle.load(f)
+from flask_cors import CORS
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://192.168.0.170:5500/"}})
+# Load the Keras model
+model = load_model('k.h5')
 
-# Create a new CountVectorizer object with the saved configurations
-vectorizer = CountVectorizer(vocabulary=configurations['vocabulary'],
-                             stop_words=configurations['stop_words'],
-                             binary=configurations['binary'])
-model = keras.models.load_model("k.h5")
-app = FastAPI()
+# Load the CountVectorizer configuration
+with open('countvectorizer_config.pkl', 'rb') as file:
+    count_vectorizer_config = pickle.load(file)
 
-# Enable CORS to allow the webpage to make requests to the FastAPI server
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["POST"],
-    allow_headers=["*"],
-)
-@app.post("/api/sentiment-analyser")
-async def check_sentiment(request: Request):
-    data = await request.json()
-    comment = data.get('comment', '')
-    comment = pd.Series(comment)
-    comment = vectorizer.transform(comment)
-    p=model.predict(comment)
-    if p[0] > 0.5:
-        return {'result': 0}
-    else:
-        return {'result': 1}
+# Initialize the CountVectorizer
+count_vectorizer = CountVectorizer(**count_vectorizer_config)
 
-if __name__ == "__main__":
-    #uvicorn.run(app, host="0.0.0.0", port=8000)
-    app.run(debug=True)
-    #uvicorn.run(app,debug=True)
-#cd D:/coding/sentiment-analysis && python -m uvicorn main:app --reload
+@app.route('/', methods=['GET','POST'])
+def predict():
+    if request.method == "POST":
+        # Get the comment from the request
+        comment = request.json['comment']
 
+        # Vectorize the comment
+        comment_vector = count_vectorizer.transform([comment])
+
+        # Make a prediction using the loaded model
+        prediction = model.predict(comment_vector)[0][0]
+
+        # Return the result based on the prediction
+        if prediction > 0.5:
+            result = {'result': 0}
+        else:
+            result = {'result': 1}
+
+        return jsonify(result)
+    return "OK"
+if __name__ == '__main__':
+    app.run()

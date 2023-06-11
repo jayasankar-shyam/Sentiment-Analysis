@@ -1,6 +1,8 @@
-fastapi==0.80.0
-uvicorn==0.18.3
-keras==2.12.0
-pandas==1.4.4
-scikit-learn==1.0.2
+fastapi
+gunicorn
+keras
+pandas
+scikit-learn
 tensorflow
+Flask
+flask_cors
