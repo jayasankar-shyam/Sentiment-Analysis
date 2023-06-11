@@ -4,7 +4,7 @@ from tensorflow.keras.models import load_model
 from sklearn.feature_extraction.text import CountVectorizer
 from flask_cors import CORS
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://192.168.0.170:5500/"}})
+CORS(app, resources={r"/*": {"origins": "http://192.168.0.170:5500","https://jayasankar-shyam.github.io/Sentiment-Analysis","https://comment-moderation.netlify.app"}})
 # Load the Keras model
 model = load_model('k.h5')
 
