@@ -16,7 +16,6 @@ form.addEventListener("submit", function (event) {
     return;
   }
 
-  // Check character count using FastAPI integration
   checkCharacterCount(commentInput.value)
     .then((response) => {
       if (response === 1) {
