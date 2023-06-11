@@ -17,7 +17,7 @@ def predict():
     if request.method == "POST":
         # Get the comment from the request
         comment = request.json['comment']
-        comment.headers.add('Access-Control-Allow-Origin', '*')
+        
         # Vectorize the comment
         comment_vector = count_vectorizer.transform([comment])
         # Make prediction using the loaded model
